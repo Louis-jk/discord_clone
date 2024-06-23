@@ -8,6 +8,8 @@ import {
   SignInButton,
   UserButton,
 } from '@clerk/nextjs';
+import { ThemeProvider } from '@/components/providers/theme-provider';
+import { cn } from '@/lib/utils';
 
 const inter = Open_Sans({ subsets: ['latin'] });
 
@@ -23,17 +25,24 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang='en'>
-        <body className={inter.className}>
-          <header>
-            <SignedOut>
-              <SignInButton />
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
-          </header>
-          <main>{children}</main>
+      <html lang='en' suppressHydrationWarning>
+        <body className={cn(inter.className, 'bg-white dark:bg-[#131a2b]')}>
+          <ThemeProvider
+            attribute='class'
+            defaultTheme='dark'
+            enableSystem={true}
+            storageKey='discord-theme'
+          >
+            <header>
+              <SignedOut>
+                <SignInButton />
+              </SignedOut>
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
+            </header>
+            <main>{children}</main>
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
